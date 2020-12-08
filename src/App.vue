@@ -6,29 +6,28 @@
 
 <script>
 export default {
-  name: 'App',
+  name: "App",
   created() {
-    this.$store.dispatch('menu/getCategoryList');
-    this.$store.dispatch('menu/getBoardList');
-    this.$store.dispatch('menu/getMenuList')
+    this.$store.dispatch("menu/getCategoryList");
+    this.$store.dispatch("menu/getBoardList");
+    this.$store
+      .dispatch("menu/getMenuList")
       .then(() => {
         this.$router.addRoutes(this.routes);
         this.$router.beforeEach((to, from, next) => {
           this.$req.abort();
           next();
-        })
+        });
       })
-      .catch(() => {})
+      .catch(() => {});
   },
-  mounted() {
-    
-  },
+  mounted() {},
   computed: {
     routes() {
       return this.$store.state.menu.routes;
     }
   }
-}
+};
 </script>
 
 <style>
@@ -50,28 +49,28 @@ body {
   padding: 0;
 }
 
-
 .el-select .el-input.is-focus .el-input__inner,
-.el-input.is-active .el-input__inner, .el-input__inner:focus {
+.el-input.is-active .el-input__inner,
+.el-input__inner:focus {
   /*border-color: #3c8dbc;*/
 }
 /*配置界面--preview 弹框*/
 .preview-config-modal {
-    position: absolute;
-    top: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 2px;
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
 }
-.preview-config-modal .el-button--primary{
-    background-color: #3c8dbc;
-    border-color: #367fa9;
+.preview-config-modal .el-button--primary {
+  background-color: #3c8dbc;
+  border-color: #367fa9;
 }
 .preview-config-modal .el-button--primary:active,
 .preview-config-modal .el-button--primary:hover,
 .preview-config-modal .el-button--primary:focus {
-    background-color: #3c8dbc;
-    border-color: ##367fa9; 
+  background-color: #3c8dbc;
+  border-color: ##367fa9;
 }
 /*配置界面--Add Param 弹框*/
 .param-config-dialog .el-transfer-panel {
@@ -90,15 +89,15 @@ body {
   }
 }
 .param-config-dialog .el-transfer__buttons .el-transfer__button {
-  margin: 0 auto!important;
-  margin-bottom: 10px!important;
+  margin: 0 auto !important;
+  margin-bottom: 10px !important;
 }
 .param-config-dialog .el-transfer-panel__header {
   background: #3c8dbc;
 }
 .param-config-dialog .el-transfer-panel__header .el-checkbox__label,
 .param-config-dialog .el-transfer-panel__header .el-checkbox__label > span {
-  color: #fff!important;
+  color: #fff !important;
 }
 .param-config-dialog .el-transfer-panel__body {
   height: 300px;
@@ -116,12 +115,12 @@ body {
   background-color: #f5f7fa;
   border-color: #dcdfe6;
 }
-.param-config-dialog .el-checkbox__input.is-checked+.el-checkbox__label,
+.param-config-dialog .el-checkbox__input.is-checked + .el-checkbox__label,
 .param-config-dialog .el-transfer-panel__item:hover {
   color: #3c8dbc;
 }
 .form-group.is-error .board-config--input input {
-    border-color: #f56c6c!important;
+  border-color: #f56c6c !important;
 }
 /*config-Add Layout--Name 输入框的提示*/
 .error-tag {
@@ -132,7 +131,7 @@ body {
 }
 /*dashboard widget 放大弹出的 Dialog 样式*/
 .el-dialog__body .box-body {
-  min-height: 500px!important;
+  min-height: 500px !important;
 }
 .param-detail-config label {
   float: left;
@@ -143,14 +142,14 @@ body {
 }
 /* gridster 布局中的 box 样式*/
 .widget-item .box {
-  margin-bottom: 0!important;
+  margin-bottom: 0 !important;
 }
 .content {
   box-sizing: border-box;
 }
-/*Gridster Layout config: Row BackgroundColor Picker*/ 
+/*Gridster Layout config: Row BackgroundColor Picker*/
 .row-color-picker .el-color-picker__trigger {
-  width: 30px!important;
+  width: 30px !important;
   height: 30px;
 }
 /*图表设计页面 -- Filter 框 -- Date Picker 样式调整*/
@@ -167,6 +166,11 @@ body {
   margin-bottom: 0;
 }
 .datasource-form .el-form-item {
-  margin-bottom: 10px; 
+  margin-bottom: 10px;
+}
+
+.main-header > .navbar > .sidebar-toggle {
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 </style>
