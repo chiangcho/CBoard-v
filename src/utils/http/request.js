@@ -1,14 +1,23 @@
-import axios from 'axios';
-import qs from 'qs';
-
+import axios from 'axios'
+import qs from 'qs'
+import Cookies from 'js-cookie'
 
 const axiosPost = axios.create({
-    transformRequest: [function (data, headers) {
-	    data = qs.stringify(data);
-	    return data;
-	  }]
+  transformRequest: [
+    function(data, headers) {
+      data = qs.stringify(data)
+      return data
+    }
+  ]
 })
-
+axios.interceptors.request.use(res => {
+  let token = Cookies.get('X-Token')
+  if (token) {
+    token = token.startsWith('Bearer') ? token : 'Bearer ' + token
+    res.headers['Authorization'] = Cookies.get('X-Token')
+  }
+  return res
+})
 //axiosPost.defaults.withCredentials = true;
 
 /*axiosPost.defaults.withCredentials = true;
@@ -43,34 +52,33 @@ axiosPost.interceptors.response.use(function (response) {
     return Promise.reject(err);
 });*/
 
-let sourceCollection = [];
+let sourceCollection = []
 
 const req = {
-	get(url) {
-        const CancelToken = axios.CancelToken;
-        const source = CancelToken.source();
-        sourceCollection.push(source);
-		return axios.get(url, { cancelToken: source.token });
-	},
+  get(url) {
+    const CancelToken = axios.CancelToken
+    const source = CancelToken.source()
+    sourceCollection.push(source)
+    return axios.get(url, { cancelToken: source.token })
+  },
 
-	post(url, params, isJson) {
-        const CancelToken = axios.CancelToken;
-        const source = CancelToken.source();
-        sourceCollection.push(source);
-        if(isJson) {
-            return axios.post(url, params, { cancelToken: source.token });
-        }else {
-            return axiosPost.post(url, params, { cancelToken: source.token });
-        }
-	},
-    
-    abort() {
-        for(let i=0,l=sourceCollection.length; i<l; i++) {
-            sourceCollection[i].cancel('shit');
-        }
-        sourceCollection = [];
+  post(url, params, isJson) {
+    const CancelToken = axios.CancelToken
+    const source = CancelToken.source()
+    sourceCollection.push(source)
+    if (isJson) {
+      return axios.post(url, params, { cancelToken: source.token })
+    } else {
+      return axiosPost.post(url, params, { cancelToken: source.token })
     }
+  },
 
+  abort() {
+    for (let i = 0, l = sourceCollection.length; i < l; i++) {
+      sourceCollection[i].cancel('shit')
+    }
+    sourceCollection = []
+  }
 }
 
-export default req;
+export default req
