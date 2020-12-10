@@ -12,7 +12,7 @@ module.exports = {
   chainWebpack: config => {
     // 重新设置 alias
     config.resolve.alias.set('@', resolve('src'))
-    config.optimization.delete('splitChunks')
+    config.optimization.splitChunks(false)
   },
   configureWebpack: {
     externals: process.env.NODE_ENV === 'production' ? [nodeExternals()] : [],
@@ -32,6 +32,7 @@ module.exports = {
       }
     }
   },
+  css: { extract: false },
   devServer: {
     publicPath: '/',
     proxy: {
