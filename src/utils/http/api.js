@@ -1,4 +1,5 @@
-const baseurl = '/api/' // In Dev
+let baseurl = window.$base_application_path || '/cboard/' //优先使用window里的定义，否则默认/cboard/
+if (!baseurl.endsWith('/')) baseurl = baseurl + '/'
 //const baseurl = '生产环境 CBoard 访问路径';  // In Production
 const api = {
   //登录
